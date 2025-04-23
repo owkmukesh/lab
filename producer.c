@@ -1,44 +1,63 @@
 #include <stdio.h>
 
-int main() {
-    int buffer[10], bufsize = 10, in = 0, out = 0, produce, consume, choice = 0;
+// Function to clear invalid input
+void clearInputBuffer() {
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF);
+}
 
-    while (choice != 3) {
-        printf("\n1. Produce\n2. Consume\n3. Exit");
+int main() {
+    int buffer[10];
+    int bufsize = 10;
+    int in = 0, out = 0, count = 0;
+    int produce, consume, choice = 0;
+
+    while (1) {
+        printf("\n\n1. Produce\n2. Consume\n3. Exit");
         printf("\nEnter your choice: ");
-        scanf("%d", &choice);
+
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input! Please enter a number.");
+            clearInputBuffer();
+            continue;
+        }
 
         switch (choice) {
-            case 1:
-                if ((in + 1) % bufsize == out) {
-                    printf("\nBuffer is Full");
+            case 1: // Produce
+                if (count == bufsize) {
+                    printf("Buffer is Full.");
                 } else {
-                    printf("\nEnter the value: ");
-                    scanf("%d", &produce);
+                    printf("Enter the value to produce: ");
+                    if (scanf("%d", &produce) != 1) {
+                        printf("Invalid value! Try again.");
+                        clearInputBuffer();
+                        break;
+                    }
                     buffer[in] = produce;
                     in = (in + 1) % bufsize;
+                    count++;
+                    printf("Produced: %d", produce);
                 }
                 break;
 
-            case 2:
-                if (in == out) {
-                    printf("\nBuffer is Empty");
+            case 2: // Consume
+                if (count == 0) {
+                    printf("Buffer is Empty.");
                 } else {
                     consume = buffer[out];
-                    printf("\nThe consumed value is %d", consume);
                     out = (out + 1) % bufsize;
+                    count--;
+                    printf("Consumed: %d", consume);
                 }
                 break;
 
-            case 3:
-                printf("\nExiting program...");
-                break;
+            case 3: // Exit
+                printf("Exiting program...");
+                return 0;
 
             default:
-                printf("\nInvalid choice. Please try again.");
+                printf("Invalid choice. Please try again.");
                 break;
         }
     }
-
-    return 0;
 }
