@@ -4,7 +4,7 @@ int buffer[10],bufsize=10,in,out,produce,consume,choice=0;
 in=0,out=0,bufsize=10;
 while(choice!=3){
 printf("\n1.produce\t2.consume\t3.exit");
-printf("\nEnter your choice");
+printf("\nEnter your choice:");
 scanf("%d",&choice);
 switch(choice){
 case 1:
@@ -18,7 +18,7 @@ in=(in+1)%bufsize;}
 break;
 case 2:
 if(in==out)
-printf("\nBhffer is empty");
+printf("\nBuffer is empty");
 else{
 consume=buffer[out];
 printf("\n The consumed value ia %d",consume);
